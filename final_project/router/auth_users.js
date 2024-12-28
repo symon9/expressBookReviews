@@ -1,5 +1,5 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
+const express = require("express");
+const jwt = require("jsonwebtoken");
 let books = require("./booksdb.js");
 const regd_users = express.Router();
 
@@ -20,7 +20,9 @@ regd_users.post("/login", (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(400).json({ message: "Username and password are required" });
+    return res
+      .status(400)
+      .json({ message: "Username and password are required" });
   }
 
   if (!isValid(username)) {
@@ -32,7 +34,9 @@ regd_users.post("/login", (req, res) => {
   }
 
   // Generate JWT token
-  const accessToken = jwt.sign({ username }, "fingerprint_customer", { expiresIn: '1h' });
+  const accessToken = jwt.sign({ username }, "fingerprint_customer", {
+    expiresIn: "1h",
+  });
 
   // Save the token in the session
   req.session.accessToken = accessToken;
@@ -59,7 +63,9 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   }
 
   books[isbn].reviews[username] = review;
-  return res.status(200).json({ message: "Review added/modified successfully" });
+  return res
+    .status(200)
+    .json({ message: "Review added/modified successfully" });
 });
 
 // Delete a book review
