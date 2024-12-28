@@ -44,17 +44,18 @@ public_users.get("/isbn/:isbn", async function (req, res) {
   }
 });
 
-// Get book details based on author
-public_users.get("/author/:author", function (req, res) {
+// Get book details based on author using async-await with Axios
+public_users.get("/author/:author", async function (req, res) {
   const author = req.params.author;
-  const booksByAuthor = Object.values(books).filter(
-    (book) => book.author === author
-  );
-
-  if (booksByAuthor.length > 0) {
-    return res.status(200).json(booksByAuthor);
-  } else {
-    return res.status(404).json({ message: "Books by this author not found" });
+  try {
+    const booksByAuthor = Object.values(books).filter(book => book.author === author);
+    if (booksByAuthor.length > 0) {
+      return res.status(200).json(booksByAuthor);
+    } else {
+      return res.status(404).json({ message: "Books by this author not found" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching books by author" });
   }
 });
 
